@@ -1,11 +1,71 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
     <title>JS rock-paper-scissors_game</title>
+    <style>
+     
+     h1, h2 {
+       text-align: center;
+     }
+
+     #result-container {
+       text-align: center;
+       margin-top: 20px;
+       font-size: 24px;
+       white-space: pre-line;
+     }
+     
+     .container {
+       display: flex;
+       justify-content: center;
+       gap: 10px;
+       margin-bottom: 20px;
+     }
+     
+     button {
+       background-color: black;
+       color: white;
+       border-radius: 10px;
+       font-size: 20px;
+     }
+
+     img {
+       width: 300px;
+       height: 300px;
+     }
+
+     .img-content {
+       display: flex;
+       justify-content: center;
+     }
+
+     .game-content {
+       text-align: center;
+     }
+
+     .outcome, .humanSelection, .computerSelection {
+       margin: 10px 0;
+       font-size: 18px;
+       white-space: pre-line;
+     }
+     
+    </style>
   </head>
 
   <body>
+    <h1>This is the Rock-Paper-Scissors Game!</h1>
+    <div class="img-content">
+      <img src="rock-paper-scissors.png" alt="rock-paper-scissors">
+    </div>
+    <h2>Click your choice below here</h2>
+    <div class="container">
+    <button id="ROCK">Rock</button>
+    <button id="PAPER">Paper</button>
+    <button id="SCISSORS">Scissors</button>
+    </div>
+    <div class="game-content"></div>
+    <div id="result-container"></div>
     <script src="game.js"></script>
-  </body>
+    </body>
 </html>
