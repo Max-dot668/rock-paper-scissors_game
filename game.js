@@ -2,19 +2,22 @@
    program: JS Rock Paper Scissors Game
    programmer: Max You
    Date: 12/10/2024
-   Description: Simple rock-paper-scissors created using concepts of variables, data types, strings, and functions in Javascript.
+   Description: Simple rock-paper-scissors created using concepts of DOM manipulation, variables, data types, strings, and functions in Javascript.
 ==================================================================================================================================*/
 
 // Global variables that will keep track of the scores
 let humanScore = 0;
 let computerScore = 0;
 
+// Global variable that checks whether game has finished
+let gameEnded = false;
+
 //============================================================================= function declarations ===============================================================================================
 
 // Create a function to return computer's choice
 function getComputerChoice() {
   // variable that stores the outcome to return
-  let computerChoice = " ";
+  let computerChoice = "";
 
   // get a random number between 0-2
   let randomNumber = Math.floor(Math.random() * 3);
@@ -27,115 +30,115 @@ function getComputerChoice() {
   } else {
     computerChoice = "SCISSORS";
   }
-  console.log(`computer: ${computerChoice}`);
+  const gameContent = document.querySelector('.game-content');
+  const computerSelection = document.createElement("div");
+  computerSelection.classList.add("computerSelection");
+  computerSelection.textContent = `computer: ${computerChoice}`;
+    gameContent.appendChild(computerSelection);
   return computerChoice;
 }
 
-// Create a function to return the players's choice
-function getHumanChoice() {
-  // variable that stores the outcome to return
-  let humanChoice = "";
-
-  // prompt and make the choice case insensitive so the program accepts different variations of the same response
-  let play = prompt(`Choose: "Rock" "Paper" "Scissors"`);
-  let playLowerCase = play.toLowerCase();
-
-  // switch statement that gets the outcome based on player's choice
-  switch (playLowerCase) {
-    case "rock":
-      humanChoice = "ROCK";
-      break;
-    case "paper":
-      humanChoice = "PAPER";
-      break;
-    case "scissors":
-      humanChoice = "SCISSORS";
-      break;
-    default:
-      throw new Error(`Huh? "${play}" is not a valid choice. Try again.`);
-  }
-  console.log(`player: ${humanChoice}`);
-  return humanChoice;
-}
-
-// Create a function to play a single round
+// Create a function that handles the logic of the game
 function playRound(humanChoice, computerChoice) {
-  // conditional statement for logic of the game
-  if (humanChoice === "ROCK" && computerChoice === "SCISSORS") {
-    console.log("+1 for player");
-    humanScore++;
-    console.log("=====================================");
-  } else if (humanChoice === "ROCK" && computerChoice === "PAPER") {
-    console.log("+1 for computer");
-    computerScore++;
-    console.log("=====================================");
-  } else if (humanChoice === "PAPER" && computerChoice === "ROCK") {
-    console.log("+1 for player");
-    humanScore++;
-    console.log("=====================================");
-  } else if (humanChoice === "PAPER" && computerChoice === "SCISSORS") {
-    console.log("+1 for computer");
-    computerScore++;
-    console.log("=====================================");
-  } else if (humanChoice === "SCISSORS" && computerChoice === "ROCK") {
-    console.log("+1 for computer");
-    computerScore++;
-    console.log("=====================================");
-  } else if (humanChoice === "SCISSORS" && computerChoice === "PAPER") {
-    console.log("+1 for player");
-    humanScore++;
-    console.log("=====================================");
-  } else {
-    console.log("Draw");
-    console.log("=====================================");
-  }
+    const gameContent = document.querySelector('.game-content');  
+    
+    if (humanChoice === "ROCK" && computerChoice === "SCISSORS") {
+        const outcome = document.createElement("div");
+        outcome.classList.add("outcome");
+        humanScore++;
+        outcome.textContent = `+1 player\nPlayer Score: ${humanScore}\nComputer Score: ${computerScore}\n=====================================`;
+        gameContent.appendChild(outcome);
+    } else if (humanChoice === "ROCK" && computerChoice === "PAPER") {
+        const outcome = document.createElement("div");
+        outcome.classList.add("outcome");
+        computerScore++;
+        outcome.textContent = `+1 computer\nPlayer Score: ${humanScore}\nComputer Score: ${computerScore}\n=====================================`;
+        gameContent.appendChild(outcome);
+    } else if (humanChoice === "PAPER" && computerChoice === "ROCK") {
+        const outcome = document.createElement("div");
+        outcome.classList.add("outcome");
+        humanScore++;
+        outcome.textContent = `+1 player\nPlayer Score: ${humanScore}\nComputer Score: ${computerScore}\n=====================================`;
+        gameContent.appendChild(outcome);
+    } else if (humanChoice === "PAPER" && computerChoice === "SCISSORS") {
+        const outcome = document.createElement("div");
+        outcome.classList.add("outcome");
+        computerScore++;
+        outcome.textContent = `+1 computer\nPlayer Score: ${humanScore}\nComputer Score: ${computerScore}\n=====================================`;
+        gameContent.appendChild(outcome);
+    } else if (humanChoice === "SCISSORS" && computerChoice === "ROCK") {
+        const outcome = document.createElement("div");
+        outcome.classList.add("outcome");
+        computerScore++;
+        outcome.textContent = `+1 computer\nPlayer Score: ${humanScore}\nComputer Score: ${computerScore}\n=====================================`;
+        gameContent.appendChild(outcome);
+    } else if (humanChoice === "SCISSORS" && computerChoice === "PAPER") {
+        const outcome = document.createElement("div");
+        outcome.classList.add("outcome");
+        humanScore++;
+        outcome.textContent = `+1 player\nPlayer Score: ${humanScore}\nComputer Score: ${computerScore}\n=====================================`;
+        gameContent.appendChild(outcome);
+    } else {
+        const outcome = document.createElement("div");
+        outcome.classList.add("outcome");
+        outcome.textContent = `Draw\nPlayer Score: ${humanScore}\nComputer Score: ${computerScore}\n=====================================`;
+        gameContent.appendChild(outcome);
+    }
 }
 
 // Create a function that will play a total of 5 rounds
 function playGame() {
-  // create variables to store returned strings to improve code readability
-  // first round
-  let humanSelection = getHumanChoice();
-  let computerSelection = getComputerChoice();
-  playRound(humanSelection, computerSelection);
+    const buttons = document.querySelectorAll("button");
 
-  // second round
-  humanSelection = getHumanChoice();
-  computerSelection = getComputerChoice();
-  playRound(humanSelection, computerSelection);
-
-  // third round
-  humanSelection = getHumanChoice();
-  computerSelection = getComputerChoice();
-  playRound(humanSelection, computerSelection);
-
-  // fourth round
-  humanSelection = getHumanChoice();
-  computerSelection = getComputerChoice();
-  playRound(humanSelection, computerSelection);
-
-  // fifth round
-  humanSelection = getHumanChoice();
-  computerSelection = getComputerChoice();
-  playRound(humanSelection, computerSelection);
+  buttons.forEach((button) => {
+    button.addEventListener("click", () => {
+      if (gameEnded) {
+        return;
+      }
+      
+      if (humanScore === 5 || computerScore === 5) {
+        let results = printResults();
+          const resultContainer = document.querySelector("#result-container");
+        const div = document.createElement("div");
+        div.classList.add("result");
+        div.textContent = results;
+        resultContainer.appendChild(div);
+        gameEnded = true;
+        buttons.forEach(btn => btn.disabled = true);
+        return;
+      }
+      else {
+         const gameContent = document.querySelector('.game-content');
+  const humanSelection = document.createElement("div");
+  humanSelection.classList.add("humanSelection");
+  humanSelection.textContent = `player: ${button.id}`;
+          gameContent.appendChild(humanSelection);
+          playRound(button.id, getComputerChoice());
+      }
+    })
+  });
 }
 
-//============================================================================= main program game ==================================================================================================
+// create a function that will print the results
+function printResults() {
+    // print results in console
+    console.log("====================== RESULTS ======================");
+    console.log(`Player Score: ${humanScore}`);
+    console.log(`Computer Score: ${computerScore}`);
 
-// play the game
-let game = playGame();
-
-// print results
-console.log("====================== RESULTS ======================");
-console.log(`Player Score: ${humanScore}`);
-console.log(`Computer Score: ${computerScore}`);
-
-// decide a winner
-console.log("====================== FINAL VEREDICT ====================== ");
-if (humanScore > computerScore) {
-  console.log("YOU WON!");
-} else if (humanScore < computerScore) {
-  console.log("You lost");
-} else {
-  console.log("It's a tie!");
+    // decide a winner and return the result message
+    console.log("====================== FINAL VEREDICT ====================== ");
+    if (humanScore > computerScore) {
+        console.log("YOU WON!");
+        return `Final Score:\nPlayer: ${humanScore}\nComputer: ${computerScore}\n\nYOU WON!`;
+    } else if (humanScore < computerScore) {
+        console.log("You lost");
+      return `Final Score:\nPlayer: ${humanScore}\nComputer: ${computerScore}\n\nYou Lost!`;
+    }
 }
+
+    //============================================================================= main program game ==================================================================================================
+
+    // play the game
+    playGame();
+
